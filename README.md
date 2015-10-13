@@ -1,2 +1,2 @@
 # realm
-Haskell realm social imitation.
+Haskell practice!
