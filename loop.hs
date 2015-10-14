@@ -4,7 +4,12 @@ import System.IO
 import Control.Concurrent
 
 -- Derive show because we need to stringify it
-data Direction = Forward | Back deriving Show
+data Direction = Forward | Back
+
+-- We can define any behvior for any data this way
+instance Show (Direction) where
+    show Forward = "вперёд!"
+    show Back    = "назад!"
 
 -- Move a dot snake-way
 moveDot :: ((Int, Int), Direction) -> ((Int, Int), Direction)
@@ -21,7 +26,7 @@ addDelay x = fmap constant delay
           constant _ = x
 
 -- output position and move forward
-keepCrawling :: ((Int, Int), Direction) -> IO Int
+keepCrawling :: ((Int, Int), Direction) -> IO ()
 keepCrawling position = do
     current <- addDelay position
     putStrLn $ show current
