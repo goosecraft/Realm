@@ -1,7 +1,8 @@
+import Control.Concurrent
 import Control.Monad
+import Data.List
 import System.Time
 import System.IO
-import Control.Concurrent
 
 -- Alias
 type Point = (Int, Int)
@@ -33,6 +34,12 @@ keepCrawling position = do
     current <- addDelay position
     putStrLn $ show current
     keepCrawling $ moveDot position
+
+-- output sqare field
+showField :: Int -> Char -> String
+showField i c = (intercalate "\n" $ getField i c) ++ "\n"
+    where getField i c = [getLine i c | _ <- [1..i]]
+          getLine  i c = [c | _ <- [1..i]]
 
 main = keepCrawling start
     where start = ((1, 1), Forward)
