@@ -3,7 +3,9 @@ import System.Time
 import System.IO
 import Control.Concurrent
 
--- Derive show because we need to stringify it
+-- Alias
+type Point = (Int, Int)
+
 data Direction = Forward | Back
 
 -- We can define any behvior for any data this way
@@ -12,7 +14,7 @@ instance Show (Direction) where
     show Back    = "назад!"
 
 -- Move a dot snake-way
-moveDot :: ((Int, Int), Direction) -> ((Int, Int), Direction)
+moveDot :: (Point, Direction) -> (Point, Direction)
 moveDot ((x, y), _)       | x == 10 && y == 10 = ((1, 1), Forward)
 moveDot ((x, y), Forward) | x == 10            = ((x, y + 1), Back)
 moveDot ((x, y), Back)    | x == 1             = ((x, y + 1), Forward)
@@ -26,7 +28,7 @@ addDelay x = fmap constant delay
           constant _ = x
 
 -- output position and move forward
-keepCrawling :: ((Int, Int), Direction) -> IO ()
+keepCrawling :: (Point, Direction) -> IO ()
 keepCrawling position = do
     current <- addDelay position
     putStrLn $ show current
