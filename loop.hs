@@ -32,14 +32,16 @@ addDelay x = fmap constant delay
 keepCrawling :: (Point, Direction) -> IO ()
 keepCrawling position = do
     current <- addDelay position
-    putStrLn $ show current
+    putStrLn $ showCrawler $ fst current
     keepCrawling $ moveDot position
 
--- output sqare field
-showField :: Int -> Char -> String
-showField i c = (intercalate "\n" $ getField i c) ++ "\n"
-    where getField i c = [getLine i c | _ <- [1..i]]
-          getLine  i c = [c | _ <- [1..i]]
+-- Output square field with X on some Point
+showCrawler :: Point -> String
+showCrawler (x, y) = showField 10 '.' 
+    where showField s c = (intercalate "\n" $ getField s c) ++ "\n"
+          getField  s c = [if q == y then getLineX s c else getLine s c | q <- [1..s]]
+          getLineX  s c = [if q == x then 'X' else c | q <- [1..s]]
+          getLine   s c = [c | _ <- [1..s]]
 
 main = keepCrawling start
     where start = ((1, 1), Forward)
